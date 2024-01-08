@@ -1,5 +1,6 @@
 package com.silvering.grajen.service;
 
+import com.silvering.grajen.model.FileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,9 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class S3Service {
@@ -24,14 +27,20 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public PutObjectResponse uploadFile(MultipartFile file, Optional<String> path) {
+    public FileModel uploadFile(MultipartFile file, Optional<String> path) {
         try {
-            return s3Client.putObject(
+            s3Client.putObject(
                     PutObjectRequest.builder()
                             .bucket(bucketName)
                             .key(path.orElse("") + file.getOriginalFilename())
                             .build(), RequestBody.fromInputStream(file.getInputStream(), file.getSize())
-                    );
+            );
+
+            return new FileModel(
+                    UUID.randomUUID().toString(),
+                    Objects.requireNonNull(file.getOriginalFilename()).replaceAll("\\..*$", ""),
+                    path.orElse("") + file.getOriginalFilename()
+            );
         } catch (IOException e) {
             throw new IllegalStateException("Failed to upload file", e);
         }

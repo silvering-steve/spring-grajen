@@ -2,6 +2,9 @@ package com.silvering.grajen.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The model for KTP data
+ */
 public class KTPModel {
     /**
      * The name of the person.

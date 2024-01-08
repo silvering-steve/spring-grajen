@@ -1,5 +1,6 @@
 package com.silvering.grajen.controllers;
 
+import com.silvering.grajen.model.FileModel;
 import com.silvering.grajen.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,10 @@ public class S3Controller {
     }
 
     @PostMapping("/upload")
-    public String uploadFile(
+    public FileModel uploadFile(
             @RequestParam(value = "file") MultipartFile file,
             @RequestParam(value = "path") Optional<String> path
     ) {
-        return s3Service.uploadFile(file, path).eTag();
+        return s3Service.uploadFile(file, path);
     }
 }
