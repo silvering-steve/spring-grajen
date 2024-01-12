@@ -2,7 +2,7 @@ package com.silvering.grajen.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silvering.grajen.model.KTPModel;
+import com.silvering.grajen.model.JemaatModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class DocumentService {
      * @return A KTPModel object containing the extracted key-value data.
      * @throws JsonProcessingException If the key-value data cannot be converted to JSON.
      */
-    public KTPModel extractKTPData(AnalyzeDocumentResponse documentResponse) throws JsonProcessingException {
+    public JemaatModel extractKTPData(AnalyzeDocumentResponse documentResponse) throws JsonProcessingException {
         // Map to store word information (id -> text)
         Map<String, String> wordHash = buildWordHash(documentResponse);
 
@@ -60,7 +60,7 @@ public class DocumentService {
         String ktpJson = objectMapper.writeValueAsString(ktpData);
 
         // Return the deserialize json object as KTPModel
-        return objectMapper.readValue(ktpJson, KTPModel.class);
+        return objectMapper.readValue(ktpJson, JemaatModel.class);
     }
 
     /**

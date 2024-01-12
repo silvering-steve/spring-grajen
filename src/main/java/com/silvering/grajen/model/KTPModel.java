@@ -1,228 +1,77 @@
 package com.silvering.grajen.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 /**
- * The model for KTP data
+ * The ktp model that consist of id and the file path in s3.
  */
+@Entity
+@Table(name = "ktp")
 public class KTPModel {
     /**
-     * The name of the person.
+     * The id of the ktp.
      */
-    @JsonProperty("Nama")
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     /**
-     * The National Identification Number (NIK) of the person.
+     * The file path in s3 bucket
      */
-    @JsonProperty("NIK")
-    private String nik;
+    @NotBlank(message = "Path is can't be blank")
+    @Column(name = "path")
+    private String path;
 
     /**
-     * The religion of the person.
+     * Empty constructor with default value
      */
-    @JsonProperty("Agama")
-    private String religion;
+    public KTPModel() {
 
-    /**
-     * The gender or sex of the person.
-     */
-    @JsonProperty("Jeniskelamin")
-    private String sex;
-
-    /**
-     * The citizenship status of the person.
-     */
-    @JsonProperty("Kewarganegaraan")
-    private String citizenship;
-
-    /**
-     * Information about the birth of the person.
-     */
-    @JsonProperty("TempatTglLahir")
-    private String birthInfo;
-
-    /**
-     * The person job.
-     */
-    @JsonProperty("Pekerjaan")
-    private String job;
-
-    /**
-     * The address of the person.
-     */
-    @JsonProperty("Alamat")
-    private String address;
-
-    /**
-     * Gets the name of the person.
-     *
-     * @return The name.
-     */
-    public String getName() {
-        return name;
     }
 
     /**
-     * Sets the name of the person.
+     * The constructor for the ktp model.
      *
-     * @param name The name to set.
+     * @param path the file path in s3 bucket.
      */
-    public void setName(String name) {
-        this.name = name;
+    public KTPModel(String path) {
+        this.path = path;
     }
 
     /**
-     * Gets the National Identification Number (NIK) of the person.
+     * Get the id.
      *
-     * @return The NIK.
+     * @return The ktp id.
      */
-    public String getNik() {
-        return nik;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * Sets the National Identification Number (NIK) of the person.
+     * Set the id.
      *
-     * @param nik The NIK to set.
+     * @param id The id.
      */
-    public void setNik(String nik) {
-        this.nik = nik;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
-     * Gets the religion of the person.
+     * Get the ktp path in s3.
      *
-     * @return The religion.
+     * @return The file path in s3.
      */
-    public String getReligion() {
-        return religion;
+    public String getPath() {
+        return path;
     }
 
     /**
-     * Sets the religion of the person.
+     * Set the ktp path in s3.
      *
-     * @param religion The religion to set.
+     * @param path The new file path in s3.
      */
-    public void setReligion(String religion) {
-        this.religion = religion;
-    }
-
-    /**
-     * Gets the gender or sex of the person.
-     *
-     * @return The gender or sex.
-     */
-    public String getSex() {
-        return sex;
-    }
-
-    /**
-     * Sets the gender or sex of the person.
-     *
-     * @param sex The gender or sex to set.
-     */
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    /**
-     * Gets the citizenship status of the person.
-     *
-     * @return The citizenship status.
-     */
-    public String getCitizenship() {
-        return citizenship;
-    }
-
-    /**
-     * Sets the citizenship status of the person.
-     *
-     * @param citizenship The citizenship status to set.
-     */
-    public void setCitizenship(String citizenship) {
-        this.citizenship = citizenship;
-    }
-
-    /**
-     * Gets information about the birth of the person.
-     *
-     * @return The birth information.
-     */
-    public String getBirthInfo() {
-        return birthInfo;
-    }
-
-    /**
-     * Sets information about the birth of the person.
-     *
-     * @param birthInfo The birth information to set.
-     */
-    public void setBirthInfo(String birthInfo) {
-        this.birthInfo = birthInfo;
-    }
-
-    /**
-     * Gets the person job.
-     *
-     * @return the person job.
-     */
-    public String getJob() {
-        return job;
-    }
-
-    /**
-     * Sets the person job.
-     *
-     * @param job the person job.
-     */
-    public void setJob(String job) {
-        this.job = job;
-    }
-
-    /**
-     * Gets the address of the person.
-     *
-     * @return The address.
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * Sets the address of the person.
-     *
-     * @param address The address to set.
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
-     * The constructor of KtpDTO. It takes in parameters representing personal information.
-     *
-     * @param name        The name of a person.
-     * @param nik         The National Identification Number (NIK) of a person.
-     * @param religion    The religion of the person.
-     * @param sex         The gender or sex of a person.
-     * @param citizenship The citizenship status of the person.
-     * @param birthInfo   The birth information of the person in the specified date format.
-     * @param address     The address of the person.
-     */
-    public KTPModel(
-            String name,
-            String nik,
-            String religion,
-            String sex,
-            String citizenship,
-            String birthInfo,
-            String address) {
-        this.name = name;
-        this.nik = nik;
-        this.religion = religion;
-        this.sex = sex;
-        this.citizenship = citizenship;
-        this.birthInfo = birthInfo;
-        this.address = address;
+    public void setPath(String path) {
+        this.path = path;
     }
 }

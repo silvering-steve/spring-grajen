@@ -1,6 +1,6 @@
 package com.silvering.grajen.controllers;
 
-import com.silvering.grajen.model.KTPModel;
+import com.silvering.grajen.model.JemaatModel;
 import com.silvering.grajen.service.TextractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/v1/ocr")
+@RequestMapping("/api/v1/ocr")
 public class TextractController {
     private final TextractService textractService;
 
@@ -24,7 +24,7 @@ public class TextractController {
     }
 
     @PostMapping("/ktp")
-    public ResponseEntity<KTPModel> extractKTPData(
+    public ResponseEntity<JemaatModel> extractKTPData(
             @RequestParam(value = "file", required = false) MultipartFile file,
             @RequestParam(value = "name", required = false) String name
     ) {

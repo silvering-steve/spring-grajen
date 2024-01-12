@@ -1,7 +1,7 @@
 package com.silvering.grajen.service;
 
 import com.silvering.grajen.model.FileModel;
-import com.silvering.grajen.model.KTPModel;
+import com.silvering.grajen.model.JemaatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ public class TextractService {
      * @throws IllegalStateException If the S3 object cannot be processed.
      * @throws IOException           If the S3 object cannot be read.
      */
-    public KTPModel extractDataFromS3(String path) throws IOException {
+    public JemaatModel extractDataFromS3(String path) throws IOException {
         try {
             // Create an S3Object using the specified bucket name and path
             S3Object s3Object = createS3Object("ktp/" + path + ".jpeg");
@@ -69,7 +69,7 @@ public class TextractService {
         }
     }
 
-    public KTPModel extractDataFromImage(MultipartFile file) throws IOException {
+    public JemaatModel extractDataFromImage(MultipartFile file) throws IOException {
         FileModel fileModel = s3Service.uploadFile(file, Optional.of("ktp/"));
 
         return extractDataFromS3(fileModel.getFileName());

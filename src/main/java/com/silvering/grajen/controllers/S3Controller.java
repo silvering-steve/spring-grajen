@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/bucket")
+@RequestMapping("/api/v1/bucket")
 public class S3Controller {
     private final S3Service s3Service;
 

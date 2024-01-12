@@ -1,29 +1,38 @@
 package com.silvering.grajen.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * All exception handler.
+ */
 @ControllerAdvice
 public class GlobalException {
-    private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
+    /**
+     * Handle invalid body requests
+     *
+     * @param e         The error messages
+     * @param request   The http requests
+     * @return All the errors in hash maps
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> handleException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        List<String> errors = new ArrayList<>();
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        logger.error("An error occurred: {}", e.getMessage(), e);
+        e.getAllErrors().forEach(err -> errors.add(err.getDefaultMessage()));
 
-        return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+        Map<String, List<String>> result = new HashMap<>();
+        result.put("errors", errors);
 
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<String> handleUploadException(Exception e) {
-        logger.error("Error when uploading file: {}", e.getMessage(), e);
-
-        return new ResponseEntity<>("Error when uploading file: " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 }
