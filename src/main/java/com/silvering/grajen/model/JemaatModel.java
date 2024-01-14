@@ -3,7 +3,7 @@ package com.silvering.grajen.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The model for KTP data
+ * The model for KTP data. WILL NOT BE USED.
  */
 public class JemaatModel {
     /**

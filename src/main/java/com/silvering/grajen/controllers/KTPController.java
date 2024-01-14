@@ -40,7 +40,8 @@ public class KTPController {
     public ResponseEntity<KTPModel> getKTPById(@PathVariable Long id) {
         Optional<KTPModel> ktpData = ktpRepository.findById(id);
 
-        return ktpData.map(ktpModel -> new ResponseEntity<>(ktpModel, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ktpData.map(ktpModel -> new ResponseEntity<>(ktpModel, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**

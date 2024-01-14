@@ -1,7 +1,7 @@
 package com.silvering.grajen.model;
 
 /**
- * The model for File data
+ * The model for File data. WILL NOT BE USED.
  */
 public class FileModel {
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 /**
- * The ktp model that consist of id and the file path in s3.
+ * The ktp model that consist of id and the file path in s3. GOING TO BE FileModel INSTEAD.
  */
 @Entity
 @Table(name = "ktp")
