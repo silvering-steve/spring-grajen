@@ -15,7 +15,7 @@
   - [ ] Use env variable.
   - [ ] Soon...
 
-**Umat**
+**Jemaat**
  - [x] Create the database.
  - [x] Create the model.
  - [x] Create the repositories.
@@ -26,9 +26,15 @@
  - [ ] Use better error handling.
  - [ ] Give better response.
  - [ ] Optimize code.
+ - [ ] Use Textract for data.
 
 **File**
  - [x] Use s3 for storage.
+ - [ ] Use 1 on 1 relation.
+ - [ ] Return the file path.
+ - [ ] Chain with the data creation with jemaat.
+ - [ ] Delete by id.
+ - [ ] Update by id.
  - [ ] Create the model.
  - [ ] Create the service.
  - [ ] Use async for processing.

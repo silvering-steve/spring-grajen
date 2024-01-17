@@ -49,4 +49,9 @@ public class JemaatController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PutMapping("/jemaat/{id}")
+    public ResponseEntity<JemaatModel> updateJemaat(@PathVariable("id") Long id, @RequestBody @Valid JemaatDTO jemaat) {
+
+    }
 }

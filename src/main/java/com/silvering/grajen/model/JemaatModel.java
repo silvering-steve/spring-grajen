@@ -1,12 +1,16 @@
 package com.silvering.grajen.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "jemaat")
 public class JemaatModel {
     @Id
@@ -25,13 +29,11 @@ public class JemaatModel {
 
     private String religion;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ktp_id")
     private FileModel ktp;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kk_id")
     private FileModel kk;
 }
