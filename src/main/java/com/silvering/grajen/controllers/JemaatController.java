@@ -28,10 +28,19 @@ public class JemaatController {
 
     @GetMapping("/jemaat")
     public ResponseEntity<List<JemaatModel>> getAllJemaat() {
-        List<JemaatModel> jemaat = new ArrayList<>();
-
         try {
-            jemaat.addAll(jemaatRepository.findAll());
+            List<JemaatModel> jemaat = new ArrayList<>(jemaatRepository.findAll());
+
+            return new ResponseEntity<>(jemaat, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/jemaat/{id}")
+    public ResponseEntity<JemaatModel> getJemaatById(@PathVariable Long id) {
+        try {
+            JemaatModel jemaat = jemaatRepository.findById(id).orElseThrow(() -> new RuntimeException("Jemaat not found"));
 
             return new ResponseEntity<>(jemaat, HttpStatus.OK);
         } catch (Exception e) {
@@ -51,7 +60,24 @@ public class JemaatController {
     }
 
     @PutMapping("/jemaat/{id}")
-    public ResponseEntity<JemaatModel> updateJemaat(@PathVariable("id") Long id, @RequestBody @Valid JemaatDTO jemaat) {
+    public ResponseEntity<JemaatModel> updateJemaat(@PathVariable Long id, @RequestBody @Valid JemaatDTO jemaat) {
+        try {
+            JemaatModel jemaatModel = jemaatService.updateJemaat(id, jemaat);
 
+            return new ResponseEntity<>(jemaatModel, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/jemaat/{id}")
+    public ResponseEntity<HttpStatus> deleteJemaat(@PathVariable Long id) {
+        try {
+            jemaatService.deleteJemaat(id);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

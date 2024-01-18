@@ -5,12 +5,13 @@ import com.silvering.grajen.model.FileModel;
 import com.silvering.grajen.model.JemaatModel;
 import com.silvering.grajen.repository.FileRepository;
 import com.silvering.grajen.repository.JemaatRepository;
+
 import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 public class JemaatService {
@@ -33,8 +34,30 @@ public class JemaatService {
         return jemaatRepository.save(jemaat);
     }
 
-    public JemaatModel updateJemaat(JemaatDTO jemaat) {
+    @Transactional
+    public void deleteJemaat(Long id) {
+        if (jemaatRepository.existsById(id)) {
+            JemaatModel jemaat = jemaatRepository.findById(id).orElseThrow();
 
+            fileRepository.deleteById(jemaat.getKtp().getId());
+            fileRepository.deleteById(jemaat.getKk().getId());
+
+            jemaatRepository.deleteById(id);
+        }
+    }
+
+    @Transactional
+    public JemaatModel updateJemaat(Long id, JemaatDTO jemaatDTO) {
+        JemaatModel _jemaat = jemaatRepository.findById(id).orElseThrow();
+
+        _jemaat.setMemberNumber(jemaatDTO.getMemberNumber());
+        _jemaat.setName(jemaatDTO.getName());
+        _jemaat.setNik(jemaatDTO.getNik());
+        _jemaat.setBirthplace(jemaatDTO.getBirthplace());
+        _jemaat.setBirthdate(jemaatDTO.getBirthdate());
+        _jemaat.setReligion(jemaatDTO.getReligion());
+
+        return jemaatRepository.save(_jemaat);
     }
 
     private FileModel createFile(String path) {
