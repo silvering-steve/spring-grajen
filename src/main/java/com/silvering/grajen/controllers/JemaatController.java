@@ -27,46 +27,46 @@ public class JemaatController {
     }
 
     @GetMapping("/jemaat")
-    public ResponseEntity<List<JemaatModel>> getAllJemaat() {
+    public ResponseEntity<?> getAllJemaat() {
         try {
             List<JemaatModel> jemaat = new ArrayList<>(jemaatRepository.findAll());
 
             return new ResponseEntity<>(jemaat, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/jemaat/{id}")
-    public ResponseEntity<JemaatModel> getJemaatById(@PathVariable Long id) {
+    public ResponseEntity<?> getJemaatById(@PathVariable Long id) {
         try {
             JemaatModel jemaat = jemaatRepository.findById(id).orElseThrow(() -> new RuntimeException("Jemaat not found"));
 
             return new ResponseEntity<>(jemaat, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/jemaat")
-    public ResponseEntity<JemaatModel> createJemaat(@RequestBody @Valid JemaatDTO jemaat) {
+    public ResponseEntity<?> createJemaat(@RequestBody @Valid JemaatDTO jemaat) {
         try {
             JemaatModel jemaatModel = jemaatService.createJemaat(jemaat);
 
             return new ResponseEntity<>(jemaatModel, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/jemaat/{id}")
-    public ResponseEntity<JemaatModel> updateJemaat(@PathVariable Long id, @RequestBody @Valid JemaatDTO jemaat) {
+    public ResponseEntity<?> updateJemaat(@PathVariable Long id, @RequestBody @Valid JemaatDTO jemaat) {
         try {
             JemaatModel jemaatModel = jemaatService.updateJemaat(id, jemaat);
 
             return new ResponseEntity<>(jemaatModel, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
