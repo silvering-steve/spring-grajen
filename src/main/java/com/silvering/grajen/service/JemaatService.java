@@ -3,31 +3,26 @@ package com.silvering.grajen.service;
 import com.silvering.grajen.dto.JemaatDTO;
 import com.silvering.grajen.model.FileModel;
 import com.silvering.grajen.model.JemaatModel;
-import com.silvering.grajen.repository.FileRepository;
 import com.silvering.grajen.repository.JemaatRepository;
-
 import jakarta.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class JemaatService {
     private final JemaatRepository jemaatRepository;
-    private final FileRepository fileRepository;
+    private final FileService fileService;
 
     @Autowired
-    public JemaatService(JemaatRepository jemaatRepository, FileRepository fileRepository) {
+    public JemaatService(JemaatRepository jemaatRepository, FileService fileService) {
         this.jemaatRepository = jemaatRepository;
-        this.fileRepository = fileRepository;
+        this.fileService = fileService;
     }
 
     @Transactional
     public JemaatModel createJemaat(JemaatDTO jemaatDTO) {
-        FileModel ktp = createFile("vincent");
-        FileModel kk = createFile("vincent");
+        FileModel ktp = fileService.createFile("vincent");
+        FileModel kk = fileService.createFile("vincent");
 
         JemaatModel jemaat = buildJemaat(jemaatDTO, ktp, kk);
 
@@ -39,8 +34,8 @@ public class JemaatService {
         if (jemaatRepository.existsById(id)) {
             JemaatModel jemaat = jemaatRepository.findById(id).orElseThrow();
 
-            fileRepository.deleteById(jemaat.getKtp().getId());
-            fileRepository.deleteById(jemaat.getKk().getId());
+            fileService.deleteFile(jemaat.getKtp().getId());
+            fileService.deleteFile(jemaat.getKk().getId());
 
             jemaatRepository.deleteById(id);
         }
@@ -60,16 +55,19 @@ public class JemaatService {
         return jemaatRepository.save(_jemaat);
     }
 
-    private FileModel createFile(String path) {
-        FileModel file = new FileModel();
-        file.setUploadedAt(LocalDateTime.now());
-        file.setPath(path);
+    // Need to delete the old file too
+    public JemaatModel updateFile(Long id, String path) {
+        JemaatModel _jemaat = jemaatRepository.findById(id).orElseThrow();
 
-        return fileRepository.save(file);
+        _jemaat.getKtp().setPath(path);
+        _jemaat.getKk().setPath(path);
+
+        return jemaatRepository.save(_jemaat);
     }
 
     private JemaatModel buildJemaat(JemaatDTO jemaatDTO, FileModel ktp, FileModel kk) {
         JemaatModel jemaat = new JemaatModel();
+
         jemaat.setMemberNumber(jemaatDTO.getMemberNumber());
         jemaat.setName(jemaatDTO.getName());
         jemaat.setNik(jemaatDTO.getNik());
